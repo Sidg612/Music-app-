@@ -8,10 +8,13 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Message
 import android.view.View
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
 import android.widget.SeekBar
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+     lateinit var animation: Animation
 
     private lateinit var mp:MediaPlayer
     private var totalTime: Int=0
@@ -20,6 +23,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        animation=AnimationUtils.loadAnimation(this, R.anim.rotation_clockwise)
 
         mp = MediaPlayer.create(this,R.raw.music)
         mp.isLooping=true
@@ -171,15 +175,21 @@ class MainActivity : AppCompatActivity() {
             //stop
 
             mp.pause()
+            musicImg.clearAnimation()
             playbtn.setBackgroundResource(R.drawable.playbtn)
+
+
         }
 
         else{
 
             //start
             mp.start()
+            musicImg.startAnimation(animation)
             playbtn.setBackgroundResource(R.drawable.pausebutton)
         }
 
     }
 }
+
+
